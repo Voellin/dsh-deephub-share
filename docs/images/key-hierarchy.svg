@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 600" width="920" height="600" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#57606a"/>
+    </marker>
+    <marker id="au" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#bc4c00"/>
+    </marker>
+    <style>
+      .t   { fill:#1f2328; font-size:13px }
+      .lab { fill:#57606a; font-size:11px }
+      .mono{ font-family:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace }
+      .key { fill:#0a3069; font-size:13px; font-weight:600 }
+      .up  { fill:#bc4c00; font-size:11px }
+      .hd  { fill:#57606a; font-size:11px; letter-spacing:.09em; font-weight:600 }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="920" height="600" rx="8" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="28" y="36" class="t" font-size="16" font-weight="600">Key hierarchy</text>
+  <text x="28" y="56" class="lab">Nothing on the left ever crosses the dashed line.</text>
+
+  <rect x="24" y="74" width="570" height="496" rx="8" fill="#f6f8fa" stroke="#d8dee4"/>
+  <rect x="652" y="74" width="244" height="496" rx="8" fill="#fff8f2" stroke="#ffd8b5"/>
+  <text x="44"  y="96" class="hd">YOUR MACHINE</text>
+  <text x="672" y="96" class="hd" fill="#bc4c00">SERVER HOLDS</text>
+  <text x="672" y="113" class="lab">none of it openable without your password</text>
+  <line x1="623" y1="74" x2="623" y2="570" stroke="#bc4c00" stroke-width="1.5" stroke-dasharray="5 5"/>
+
+  <rect x="48" y="118" width="150" height="34" rx="6" fill="#fff" stroke="#8c959f"/>
+  <text x="123" y="140" class="key" text-anchor="middle">password</text>
+  <path d="M123,152 L123,186" stroke="#57606a" marker-end="url(#a)"/>
+  <text x="134" y="173" class="lab mono">scrypt  N=2^16 · r=8 · p=1 · 64 MB</text>
+
+  <rect x="48" y="188" width="150" height="34" rx="6" fill="#fff" stroke="#8c959f"/>
+  <text x="123" y="210" class="key" text-anchor="middle">master</text>
+
+  <path d="M123,222 L123,244 L300,244 L300,262" stroke="#57606a" fill="none" marker-end="url(#a)"/>
+  <path d="M123,222 L123,316" stroke="#57606a" fill="none" marker-end="url(#a)"/>
+  <text x="310" y="240" class="lab mono">HKDF "dh-auth-v1"</text>
+  <text x="133" y="304" class="lab mono" font-size="10">HKDF "dh-kek-v1"</text>
+
+  <rect x="230" y="264" width="140" height="32" rx="6" fill="#fff" stroke="#8c959f"/>
+  <text x="300" y="285" class="key" text-anchor="middle">authKey</text>
+  <path d="M370,280 L660,280" stroke="#bc4c00" fill="none" marker-end="url(#au)"/>
+  <text x="392" y="272" class="up mono">sha256</text>
+  <text x="672" y="284" class="key mono" font-size="12">auth hash</text>
+
+  <rect x="48" y="320" width="150" height="32" rx="6" fill="#fff" stroke="#8c959f"/>
+  <text x="123" y="341" class="key" text-anchor="middle">KEK</text>
+
+  <rect x="250" y="320" width="300" height="52" rx="6" fill="#fff" stroke="#0969da" stroke-width="1.5"/>
+  <text x="400" y="340" class="key" text-anchor="middle">MK — master key</text>
+  <text x="400" y="360" class="lab" text-anchor="middle">random 32 bytes · generated once · never changes</text>
+  <path d="M198,336 L244,336" stroke="#57606a" marker-end="url(#a)"/>
+  <text x="200" y="328" class="lab mono" font-size="10">wraps</text>
+
+  <path d="M550,336 L660,336" stroke="#bc4c00" marker-end="url(#au)"/>
+  <text x="672" y="340" class="key mono" font-size="12">wrapped_MK_pwd</text>
+
+  <path d="M500,372 L500,392 L660,392" stroke="#bc4c00" fill="none" marker-end="url(#au)"/>
+  <text x="332" y="389" class="lab mono" font-size="10">HKDF "dh-mk-verifier-v1"</text>
+  <text x="672" y="396" class="key mono" font-size="12">MK verifier</text>
+
+  <rect x="48" y="420" width="150" height="34" rx="6" fill="#fff" stroke="#8c959f"/>
+  <text x="123" y="437" class="key" text-anchor="middle">recovery code</text>
+  <text x="123" y="470" class="lab" text-anchor="middle" font-size="10">Crockford Base32 · 112 bit</text>
+  <path d="M198,437 L246,437" stroke="#57606a" marker-end="url(#a)"/>
+  <rect x="252" y="421" width="150" height="32" rx="6" fill="#fff" stroke="#8c959f"/>
+  <text x="327" y="442" class="key" text-anchor="middle">recoveryKEK</text>
+  <text x="252" y="412" class="lab mono" font-size="10">HKDF "dh-recovery-v1"</text>
+  <path d="M402,437 L660,437" stroke="#bc4c00" fill="none" marker-end="url(#au)"/>
+  <text x="412" y="429" class="lab mono" font-size="10">wraps the same MK</text>
+  <text x="672" y="441" class="key mono" font-size="12">wrapped_MK_recovery</text>
+
+  <line x1="44" y1="492" x2="574" y2="492" stroke="#d8dee4"/>
+  <text x="48" y="514" class="hd">EVERY OBJECT</text>
+  <rect x="48" y="524" width="150" height="34" rx="6" fill="#fff" stroke="#8c959f"/>
+  <text x="123" y="546" class="key" text-anchor="middle">plaintext</text>
+  <path d="M198,541 L660,541" stroke="#bc4c00" fill="none" marker-end="url(#au)"/>
+  <text x="212" y="533" class="lab mono" font-size="10">AES-256-GCM with a fresh random DK · DK wrapped by MK</text>
+  <text x="212" y="556" class="lab mono" font-size="10">AAD = id | type | keyScheme</text>
+  <text x="672" y="536" class="key mono" font-size="12">ct · iv · tag</text>
+  <text x="672" y="554" class="key mono" font-size="12">wrapped_dk</text>
+
+  <text x="28" y="588" class="lab">password · master · KEK · MK · DK — none of these are ever uploaded, in any form.</text>
+</svg>

@@ -1,0 +1,149 @@
+/* 颜色一律走 --dsw-alias-* token（与 dsh 自带的设置分区同一套），深色主题自动跟。 */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 560px;
+  color: var(--dsw-alias-label-primary);
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+.subtitle {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.meta,
+.intro,
+.note,
+.dim {
+  margin: 0;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.intro {
+  color: var(--dsw-alias-label-secondary);
+}
+
+.warnNote {
+  margin: 0;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--dsw-alias-state-warn-label);
+}
+
+.err {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-state-error-primary);
+}
+
+.input {
+  width: 100%;
+  max-width: 360px;
+}
+
+.mono {
+  font-family: var(--ds-font-family-code, ui-monospace, Menlo, Consolas, monospace);
+}
+
+.code {
+  font-family: var(--ds-font-family-code, ui-monospace, Menlo, Consolas, monospace);
+  font-size: 20px;
+  line-height: 32px;
+  letter-spacing: 1.5px;
+  padding: 10px 14px;
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 12px;
+  background: var(--dsw-alias-bg-layer-1);
+  user-select: all;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 16px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.facts dt {
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.grow {
+  flex: 1;
+  min-width: 0;
+}
+
+.tag {
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 6px;
+  font-size: 11px;
+  line-height: 18px;
+  background: var(--dsw-alias-interactive-bg-hover);
+  color: var(--dsw-alias-label-secondary);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.msg {
+  margin: 0;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.msg_ok { color: var(--dsw-alias-state-success-primary); }
+.msg_bad { color: var(--dsw-alias-state-error-primary); }
+.msg_warn { color: var(--dsw-alias-state-warn-label); }
+.msg_wait,
+.msg_acc { color: var(--dsw-alias-label-secondary); }

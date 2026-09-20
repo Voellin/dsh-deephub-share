@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 366" width="920" height="366" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Source Han Sans SC','Noto Sans CJK SC','WenQuanYi Micro Hei',ui-sans-serif,sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#57606a"/>
+    </marker>
+    <style>
+      .t    { fill:#1f2328; font-size:13px }
+      .lab  { fill:#57606a; font-size:12px }
+      .mono { font-family:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace }
+      .name { fill:#0a3069; font-size:14px; font-weight:600 }
+      .hd   { fill:#57606a; font-size:11px; letter-spacing:.06em; font-weight:600 }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="920" height="366" rx="8" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="28" y="36" class="t" font-size="16" font-weight="600">四方关系</text>
+  <text x="28" y="57" class="lab">协议是契约，不隶属于任何一端。插件、桌面端、服务端三者地位平等，均须遵循协议。</text>
+
+  <rect x="250" y="80" width="420" height="94" rx="8" fill="#ddf4ff" stroke="#0969da" stroke-width="1.5"/>
+  <text x="460" y="107" class="name mono" font-size="15" text-anchor="middle">packages/cloud-protocol</text>
+  <text x="460" y="130" class="lab" text-anchor="middle">密钥派生 · 信封加密 · 请求与响应签名</text>
+  <text x="460" y="149" class="lab" text-anchor="middle">账号 · 身份 · 朋友 · 投递 · 版本协商</text>
+  <text x="460" y="167" class="hd" fill="#0969da" text-anchor="middle">公开 · 本仓库 · 协议正本，唯一一份</text>
+
+  <path d="M460,174 L460,198" stroke="#57606a" fill="none"/>
+  <path d="M150,198 L770,198" stroke="#57606a" fill="none"/>
+  <path d="M150,198 L150,226" stroke="#57606a" fill="none" marker-end="url(#a)"/>
+  <path d="M460,198 L460,226" stroke="#57606a" fill="none" marker-end="url(#a)"/>
+  <path d="M770,198 L770,226" stroke="#57606a" fill="none" stroke-dasharray="4 4" marker-end="url(#a)"/>
+  <text x="474" y="216" class="lab">引用</text>
+  <text x="758" y="216" class="lab" text-anchor="end">不引用，另行实现</text>
+
+  <rect x="30" y="228" width="240" height="112" rx="8" fill="#ddf4ff" stroke="#0969da" stroke-width="1.5"/>
+  <text x="150" y="254" class="name mono" font-size="12" text-anchor="middle">dsh-deephub-share</text>
+  <text x="150" y="276" class="lab" text-anchor="middle">DeepSeek Harness 插件</text>
+  <text x="150" y="296" class="lab" text-anchor="middle">Node Host + 浏览器</text>
+  <text x="150" y="313" class="lab" text-anchor="middle">两个 face</text>
+  <text x="150" y="331" class="hd" fill="#0969da" text-anchor="middle">公开 · 本仓库</text>
+
+  <rect x="340" y="228" width="240" height="112" rx="8" fill="#f6f8fa" stroke="#8c959f"/>
+  <text x="460" y="254" class="name" text-anchor="middle">DeepHub 桌面端</text>
+  <text x="460" y="276" class="lab" text-anchor="middle">Electron</text>
+  <text x="460" y="296" class="lab" text-anchor="middle">密钥存于操作系统</text>
+  <text x="460" y="313" class="lab" text-anchor="middle">安全存储</text>
+  <text x="460" y="331" class="hd" text-anchor="middle">闭源</text>
+
+  <rect x="650" y="228" width="240" height="112" rx="8" fill="#f6f8fa" stroke="#8c959f"/>
+  <text x="770" y="254" class="name" text-anchor="middle">DeepHub 服务端</text>
+  <text x="770" y="276" class="lab" text-anchor="middle">Node + SQLite</text>
+  <text x="770" y="296" class="lab" text-anchor="middle">不 import 此包，自行维护</text>
+  <text x="770" y="313" class="lab" text-anchor="middle">一份逐字节等价的实现</text>
+  <text x="770" y="331" class="hd" text-anchor="middle">闭源</text>
+
+</svg>

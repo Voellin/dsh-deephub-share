@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# 只读。这个仓库的 CI 不需要写任何东西，也不碰任何 secret——
+# 它跑的全是本地检查（类型、单元测试、构建），一个请求都不出网。
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 22.19 是 engines 里的下限，24 是当前的 LTS 走向。两头都跑，中间的自然也就管住了。
+        node: ['22.19', '24']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      # 用 ci 而不是 install：它按 package-lock.json 装，装不上就失败，
+      # 而不是悄悄改了 lock 再继续——公开仓的 CI 得能证明 lock 是准的。
+      - run: npm ci
+
+      # --if-present：将来加第三个包时，它没有对应脚本也不该让整条 CI 红。
+      - run: npm run typecheck --workspaces --if-present
+      - run: npm test --workspaces --if-present
+      - run: npm run build --workspaces --if-present
+
+      # 构建产物里必须还带着协议那一包：插件发出去的 tgz 不依赖 @deephub/cloud-protocol，
+      # 靠的就是构建时整包内联。哪天打包器的默认行为变了，这一行会先红。
+      - name: 协议是否仍被整包内联进插件
+        run: |
+          f=packages/dsh-deephub-share/lib/index.js
+          test -f "$f" || { echo "没有构建产物：$f"; exit 1; }
+          grep -q 'dh-kek-v1' "$f" || {
+            echo "::error file=$f::协议没有被内联进来——发出去的包会缺 @deephub/cloud-protocol"
+            exit 1
+          }
+          echo "✓ 协议已内联"

@@ -1,0 +1,5 @@
+# dsh-deephub-share 的配置层。`dsh plugin add` 装进 profile 后自动叠上；
+# 一行就够：Host 半从 exports["."] 加载，浏览器半由 dsh 按 package.json 的 dsh.client 自动发现。
+- insert:
+    - id: deephub-share
+      name: dsh-deephub-share

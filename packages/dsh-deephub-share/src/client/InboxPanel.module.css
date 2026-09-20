@@ -1,0 +1,422 @@
+/* 颜色一律走 --dsw-alias-* token（与 dsh 自带的面板同一套），深色主题自动跟。 */
+
+/* ── 左栏那一行的图标 ── */
+.glyph {
+  position: relative;
+  display: inline-flex;
+}
+
+/* dsh 那一行的构成是「16px 的图标盒（固定宽）+ 8px 间距 + 文字」，
+   图标右边只剩 8px，而一个数字至少要 14px——所以它**必然压住图标或压住文字**，
+   只能选压图标（人像右下那点笔画，盖了也认得出），压文字会把"朋"啃掉一块。
+   `left` 定位不用 `right`：`right:-7` 会让它整个往左糊在图标上（踩过）。 */
+.glyphBadge {
+  position: absolute;
+  top: -5px;
+  left: 7px;
+  min-width: 12px;
+  height: 13px;
+  padding: 0 2px;
+  border-radius: 7px;
+  background: var(--dsw-alias-button-info-fill, #4176e6);
+  color: var(--dsw-alias-button-info-label, #fff);
+  font-size: 9px;
+  line-height: 13px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 0 0 1.5px var(--dsw-alias-bg-layer-0, #fff);
+}
+
+/* ── 整页 ── */
+.root {
+  height: 100%;
+  display: flex;
+  min-height: 0;
+  color: var(--dsw-alias-label-primary);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.blank {
+  padding: 28px;
+  color: var(--dsw-alias-label-primary);
+}
+
+/* 左：人名单 */
+.people {
+  width: 268px;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: 0.5px solid var(--dsw-alias-border-l4);
+}
+
+.me {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 10px 4px;
+  padding: 10px 12px;
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 10px;
+}
+
+.meBody {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 1px;
+}
+
+.meName {
+  font-size: 13px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meOps {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+}
+
+.nameInput {
+  width: 100%;
+  max-width: 130px;
+}
+
+.scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 10px 8px;
+  min-height: 0;
+}
+
+.grouphead {
+  padding: 10px 6px 4px;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* 一个人一行：左边头像 + 名字/状态，右边数字 */
+.prow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.prow:hover {
+  background: color-mix(in srgb, var(--dsw-alias-label-primary) 4%, transparent);
+}
+
+.prowOn {
+  background: color-mix(in srgb, var(--dsw-alias-label-primary) 6%, transparent);
+}
+
+.prowBody {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 1px;
+}
+
+.prowName {
+  font-size: 13px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reqOps {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+}
+
+/* 「加朋友」这句是分隔线之下、输入框之上的一行小标题：光一个「发送请求」说不清要干嘛 */
+.addhead {
+  padding: 9px 12px 0;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--dsw-alias-label-tertiary);
+  border-top: 0.5px solid var(--dsw-alias-border-l4);
+}
+
+.addbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px 10px;
+}
+
+.addInput {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 右：详情 */
+.detail {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 18px 24px 28px;
+}
+
+.dhead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 0.5px solid var(--dsw-alias-border-l4);
+}
+
+.dheadBody {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 1px;
+}
+
+.dheadName {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 600;
+}
+
+.dhead > :last-child {
+  margin-left: auto;
+}
+
+.sectitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 24px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-secondary);
+  margin-bottom: 8px;
+}
+
+/* 「收下到 <工作区>」：贴着标题行右端，只有工作区不止一个时才出现 */
+.landTo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 一条待收 */
+.item {
+  padding: 11px 13px;
+  margin-bottom: 9px;
+  max-width: 560px;
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 10px;
+  background: var(--dsw-alias-bg-layer-1);
+}
+
+.itemMeta {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.itemFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.ops {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+}
+
+/* 头像：名字第一个字 */
+.av {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dsw-alias-label-secondary);
+  background: color-mix(in srgb, var(--dsw-alias-label-primary) 7%, transparent);
+}
+
+.avLg {
+  width: 38px;
+  height: 38px;
+  font-size: 15px;
+}
+
+.avMe {
+  color: var(--dsw-alias-bg-layer-1, #fff);
+  background: var(--dsw-alias-label-primary);
+}
+
+.badge {
+  margin-left: auto;
+  flex: none;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--dsw-alias-button-info-fill, #4176e6);
+  color: var(--dsw-alias-button-info-label, #fff);
+  font-size: 11px;
+  line-height: 17px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.dim {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pad {
+  padding: 4px 6px;
+}
+
+.mono {
+  font-family: var(--ds-font-family-code, ui-monospace, Menlo, Consolas, monospace);
+}
+
+.ok {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-state-success-primary, var(--dsw-alias-label-secondary));
+}
+
+.err {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-state-error-primary);
+}
+
+/* 「已收下」那一行的头像位：不是人，用个淡一点的圈 */
+.avGhost {
+  background: transparent;
+  border: 0.5px dashed var(--dsw-alias-border-l3);
+  color: var(--dsw-alias-label-tertiary);
+}
+
+/* 「已收下」列表里的一条 */
+.landedHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.landedTitle {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── 备注 ─────────────────────────────────────────────────────────── */
+
+/* 详情页头里就地改备注。
+   固定宽度而不是 `width: 100%` —— 它长在 .dheadBody 这个 column flex 里，
+   百分比要靠内容反推列宽，浏览器给出来的结果并不稳。 */
+.remarkInput {
+  width: 220px;
+  max-width: 100%;
+}
+
+/* Input 原语的 className 挂在**外层 span** 上，里面那个 <input> 永远是它自己的
+   14px/22px。这一行周围全是 12–13px，14px 的灰色 placeholder 在里面又大又重，
+   所以要往下一层改。 */
+.remarkInput input {
+  font-size: 13px;
+  line-height: 20px;
+}
+
+/* 「保存备注」紧挨着输入框，**不要 margin-left: auto** ——
+   推到最右边之后，它和输入框之间隔着大半屏空白，看着像跟「解除关系」是一伙的。
+   靠右的只该有「解除关系」，那条由 .dhead > :last-child 管。 */
+.dheadSave {
+  flex: none;
+  margin-left: 2px;
+}
+
+/* 朋友那一行的右键菜单。
+   没用 dsh 的 Menu 原语——它锚在触发元素上，右键菜单要跟着鼠标，
+   得拿个 0×0 的假锚点去骗它。手画一个，位置也拿得准。
+   fixed + portal：左边那一列有 overflow，不 portal 出去会被裁掉。 */
+.ctx {
+  position: fixed;
+  z-index: 1000;
+  min-width: 152px;
+  padding: 4px;
+  background: var(--dsw-alias-bg-layer-1);
+  border: 0.5px solid var(--dsw-alias-border-l3);
+  border-radius: 10px;
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.18);
+}
+
+.ctxItem {
+  display: block;
+  width: 100%;
+  padding: 7px 10px;
+  font: inherit;
+  font-size: 13px;
+  line-height: 20px;
+  text-align: left;
+  color: var(--dsw-alias-label-primary);
+  background: none;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.ctxItem:hover {
+  background: var(--dsw-alias-border-l4);
+}

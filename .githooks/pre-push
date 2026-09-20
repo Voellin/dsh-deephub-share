@@ -1,0 +1,16 @@
+#!/bin/sh
+# 见 .githooks/protocol-gate.mjs。启用：git config core.hooksPath .githooks
+# stdin 每行： <local ref> <local sha> <remote ref> <remote sha>
+ZERO=0000000000000000000000000000000000000000
+while read -r _local_ref local_sha _remote_ref remote_sha; do
+  [ "$local_sha" = "$ZERO" ] && continue                 # 删分支，放行
+  if [ "$remote_sha" = "$ZERO" ]; then
+    files=$(git ls-tree -r --name-only "$local_sha")     # 首推：远端还没有，看整棵树
+  else
+    files=$(git diff --name-only "$remote_sha" "$local_sha")
+  fi
+  [ -z "$files" ] && continue
+  # shellcheck disable=SC2086
+  node .githooks/protocol-gate.mjs $files || exit 1
+done
+exit 0

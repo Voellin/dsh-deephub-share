@@ -1,0 +1,197 @@
+/* 颜色一律走 --dsw-alias-* token，深色主题自动跟。宽度跟着会话流走，不自己定死。 */
+
+.card {
+  /* 别人写的内容：标题可能是一长串没有空格的字符（路径、URL、或者干脆是乱填的）。
+     不给它断行，整张卡片会被撑出会话流、横着滚出屏幕。 */
+  overflow-wrap: break-word;
+  word-break: break-word;
+  margin: 8px 0 4px;
+  padding: 16px 18px;
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 12px;
+  background: var(--dsw-alias-bg-layer-1);
+  color: var(--dsw-alias-label-primary);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.av {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--dsw-alias-label-secondary);
+  background: color-mix(in srgb, var(--dsw-alias-label-primary) 7%, transparent);
+}
+
+.headBody {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 1px;
+}
+
+.from {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.title {
+  margin: 0;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 600;
+}
+
+.goal {
+  margin: 10px 0 0;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.chip {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-secondary);
+  background: color-mix(in srgb, var(--dsw-alias-label-primary) 5%, transparent);
+}
+
+.block {
+  margin-top: 14px;
+}
+
+.h {
+  margin: 0 0 6px;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.steps {
+  min-width: 0;
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.plain {
+  min-width: 0;
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* 附件：左边是什么，右边是能点的 */
+.files {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 8px;
+}
+
+.fileName {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dim {
+  font-size: 12px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.open {
+  margin-left: auto;
+  flex: none;
+  border: 0;
+  background: transparent;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--dsw-alias-link, #4176e6);
+  cursor: pointer;
+}
+
+.open:hover {
+  background: color-mix(in srgb, var(--dsw-alias-link, #4176e6) 10%, transparent);
+}
+
+.rawToggle {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  font-size: 12px;
+  color: var(--dsw-alias-label-tertiary);
+  cursor: pointer;
+}
+
+.rawToggle:hover {
+  color: var(--dsw-alias-label-secondary);
+}
+
+/* 原始记录：折在卡片里，等宽小字，与 dsh 自己的"上下文注入"小框一个调子 */
+.raw {
+  margin: 8px 0 0;
+  padding: 10px 12px;
+  list-style: none;
+  max-height: 260px;
+  overflow-y: auto;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--dsw-alias-label-primary) 4%, transparent);
+  font-family: var(--ds-font-family-code, ui-monospace, Menlo, Consolas, monospace);
+  font-size: 12px;
+  line-height: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rawRole {
+  color: var(--dsw-alias-label-tertiary);
+  margin-right: 6px;
+}
+
+.rawText {
+  white-space: pre-wrap;
+  word-break: break-word;
+}

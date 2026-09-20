@@ -1,0 +1,17 @@
+{
+  "name": "deephub-open",
+  "private": true,
+  "description": "DeepHub 的开放部分：零知识云端协议客户端，以及基于它的 DeepSeek Harness 插件",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "scripts": {
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present"
+  }
+}

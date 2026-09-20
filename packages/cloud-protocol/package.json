@@ -1,0 +1,25 @@
+{
+  "name": "@deephub/cloud-protocol",
+  "version": "0.1.0",
+  "description": "DeepHub cloud protocol client: signed transport, zero-knowledge account, X25519 identity, friends, end-to-end encrypted idea delivery. Shared by the DeepHub desktop app and the dsh-deephub-share plugin.",
+  "license": "MIT",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "PROTOCOL.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node --experimental-transform-types --import ./test/hooks.mjs --test test/*.test.ts"
+  }
+}

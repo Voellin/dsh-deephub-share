@@ -1,0 +1,43 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+}
+
+.note {
+  margin: 0;
+  color: var(--dsw-alias-label-secondary);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+/* 会话头上的「分享思路」：浅底 + 彩字 + 图标。
+   ⚠️ 用的不是 `--dsw-alias-brand-primary`：dsh 的"品牌色"是近黑 #0f1115（实机读出来的），
+   那是「确认发送」那种主动作按钮的颜色。这一颗要的是蓝，用按钮族里的 info 色
+   （#4176e6，和「对话/轨迹」选中那条下划线同一个蓝），退化时再退到 link 色。
+   浅底用 color-mix 从同一个蓝调；万一环境不支持 color-mix，底色退成透明，剩彩字与描边，仍然能看。 */
+.share {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 0.5px solid color-mix(in srgb, var(--dsw-alias-button-info-fill, var(--dsw-alias-link, #4176e6)) 30%, transparent);
+  background: color-mix(in srgb, var(--dsw-alias-button-info-fill, var(--dsw-alias-link, #4176e6)) 10%, transparent);
+  color: var(--dsw-alias-button-info-fill, var(--dsw-alias-link, #4176e6));
+  font: inherit;
+  font-size: 13px;
+  line-height: 28px;
+  cursor: pointer;
+}
+
+.share:hover {
+  background: color-mix(in srgb, var(--dsw-alias-button-info-fill, var(--dsw-alias-link, #4176e6)) 18%, transparent);
+}
+
+.share:active {
+  background: color-mix(in srgb, var(--dsw-alias-button-info-fill, var(--dsw-alias-link, #4176e6)) 24%, transparent);
+}
+
+.icon {
+  flex: none;
+}

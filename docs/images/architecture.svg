@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 470" width="920" height="470" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#57606a"/>
+    </marker>
+    <style>
+      .t    { fill:#1f2328; font-size:13px }
+      .lab  { fill:#57606a; font-size:11px }
+      .mono { font-family:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace }
+      .name { fill:#0a3069; font-size:13px; font-weight:600 }
+      .hd   { fill:#57606a; font-size:10px; letter-spacing:.09em; font-weight:600 }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="920" height="470" rx="8" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="28" y="36" class="t" font-size="16" font-weight="600">Who uses the protocol</text>
+  <text x="28" y="56" class="lab">The protocol is a contract. Plugin, desktop app and server are peers under it — none owns it.</text>
+
+  <!-- protocol -->
+  <rect x="250" y="80" width="420" height="92" rx="8" fill="#ddf4ff" stroke="#0969da" stroke-width="1.5"/>
+  <text x="460" y="106" class="name mono" font-size="14" text-anchor="middle">packages/cloud-protocol</text>
+  <text x="460" y="128" class="lab" text-anchor="middle">key derivation · envelope encryption · request &amp; response signing</text>
+  <text x="460" y="145" class="lab" text-anchor="middle">account · identity · friends · delivery · version negotiation</text>
+  <text x="460" y="164" class="hd" fill="#0969da" text-anchor="middle">PUBLIC — THIS REPO — THE ONLY COPY IN THE WORLD</text>
+
+  <path d="M460,172 L460,196" stroke="#57606a" fill="none"/>
+  <path d="M150,196 L770,196" stroke="#57606a" fill="none"/>
+  <path d="M150,196 L150,224" stroke="#57606a" fill="none" marker-end="url(#a)"/>
+  <path d="M460,196 L460,224" stroke="#57606a" fill="none" marker-end="url(#a)"/>
+  <path d="M770,196 L770,224" stroke="#57606a" fill="none" stroke-dasharray="4 4" marker-end="url(#a)"/>
+  <text x="474" y="214" class="lab">imported by</text>
+  <text x="760" y="214" class="lab" text-anchor="end">mirrored, not imported</text>
+
+  <!-- three consumers -->
+  <rect x="30" y="226" width="240" height="108" rx="8" fill="#ddf4ff" stroke="#0969da" stroke-width="1.5"/>
+  <text x="150" y="252" class="name mono" font-size="12" text-anchor="middle">dsh-deephub-share</text>
+  <text x="150" y="272" class="lab" text-anchor="middle">DeepSeek Harness plugin</text>
+  <text x="150" y="292" class="lab" text-anchor="middle">Node host half + browser half</text>
+  <text x="150" y="318" class="hd" fill="#0969da" text-anchor="middle">PUBLIC — THIS REPO</text>
+
+  <rect x="340" y="226" width="240" height="108" rx="8" fill="#f6f8fa" stroke="#8c959f"/>
+  <text x="460" y="252" class="name" font-size="13" text-anchor="middle">DeepHub desktop</text>
+  <text x="460" y="272" class="lab" text-anchor="middle">Electron</text>
+  <text x="460" y="292" class="lab" text-anchor="middle">keys in OS secure storage</text>
+  <text x="460" y="318" class="hd" text-anchor="middle">CLOSED SOURCE</text>
+
+  <rect x="650" y="226" width="240" height="108" rx="8" fill="#f6f8fa" stroke="#8c959f"/>
+  <text x="770" y="252" class="name" font-size="13" text-anchor="middle">DeepHub server</text>
+  <text x="770" y="272" class="lab" text-anchor="middle">Node + SQLite</text>
+  <text x="770" y="292" class="lab" text-anchor="middle">does not import the package —</text>
+  <text x="770" y="307" class="lab" text-anchor="middle">keeps its own byte-equal copy</text>
+  <text x="770" y="326" class="hd" text-anchor="middle">CLOSED SOURCE</text>
+
+  <!-- invariants -->
+  <rect x="30" y="356" width="860" height="86" rx="8" fill="#fff8f2" stroke="#ffd8b5"/>
+  <text x="48" y="378" class="hd" fill="#bc4c00">TWO THINGS EXIST TWICE IN THE WORLD, AND MUST STAY BYTE-EQUAL</text>
+  <text x="48"  y="402" class="mono" font-size="12" fill="#0a3069">src/cloud/canon.ts</text>
+  <text x="228" y="402" class="lab">↔ the server's signing-bytes implementation</text>
+  <text x="530" y="402" class="lab">one byte off → every request 401</text>
+  <text x="48"  y="424" class="mono" font-size="12" fill="#0a3069">src/protocol/registry.ts</text>
+  <text x="228" y="424" class="lab">↔ the server's copy of the version table</text>
+  <text x="530" y="424" class="lab">one row off → negotiation can't be trusted</text>
+</svg>

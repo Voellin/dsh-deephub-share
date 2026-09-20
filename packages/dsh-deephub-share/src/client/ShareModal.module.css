@@ -1,0 +1,284 @@
+/* 颜色一律走 --dsw-alias-* token。dsh 的 Modal 卡片默认 380px 宽，这一屏要宽一些：
+   选择器写两遍提高优先级，压过原语里的单类选择器。 */
+
+.dialog.dialog {
+  width: min(760px, 100%);
+  max-height: calc(100vh - 48px);
+}
+
+.dialogNarrow.dialogNarrow {
+  width: min(420px, 100%);
+}
+
+.content.content {
+  min-height: 0;
+  overflow: auto;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 单个按钮不要拉成整行宽 */
+  gap: 10px;
+  padding: 0 24px;
+  color: var(--dsw-alias-label-primary);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.body > .row,
+.body > .split,
+.body > .sep,
+.body > .note,
+.body > .card,
+.body > .block,
+.body > .list,
+.body > p,
+.body > h3 {
+  align-self: stretch;
+}
+
+/* 一行里"左边说这是什么、右边是能点的"——与页脚同一个句式 */
+.split {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.split > p {
+  margin: 0;
+}
+
+/* 内容 / 扫描 / 附件 三段之间的细线 */
+.sep {
+  flex: none;
+  height: 1px;
+  margin: 2px 0;
+  background: var(--dsw-alias-border-l3);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 24px;
+}
+
+/* 页脚那句提示：Modal 原语的字号比这一屏正文大，压成和别的灰字一样小 */
+.footerHint {
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.grow {
+  flex: 1;
+  min-width: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.label {
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.who {
+  font-weight: 500;
+}
+
+.addWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.addLine {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input {
+  width: 100%;
+  max-width: 240px;
+}
+
+.inputSm {
+  width: 140px;
+}
+
+.mono {
+  font-family: var(--ds-font-family-code, ui-monospace, Menlo, Consolas, monospace);
+}
+
+.dim {
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.note {
+  margin: 0;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 18px;
+  background: var(--dsw-alias-interactive-bg-hover);
+}
+
+.inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ok { color: var(--dsw-alias-state-success-primary); }
+.bad { color: var(--dsw-alias-state-error-primary); }
+.warn { color: var(--dsw-alias-state-warn-label); }
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pick {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px;
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pick:hover { background: var(--dsw-alias-interactive-bg-hover); }
+.pick.on { border-color: var(--dsw-alias-brand-primary); }
+.pick.off, .file.off { opacity: 0.55; cursor: not-allowed; }
+
+.h1 {
+  margin: 4px 0 0;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 12px;
+  background: var(--dsw-alias-bg-layer-1);
+}
+
+.goal { margin: 0; }
+
+.sec { display: flex; flex-direction: column; gap: 2px; }
+
+.h2 {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.raw summary {
+  cursor: pointer;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.rawRow {
+  display: flex;
+  gap: 8px;
+  padding: 4px 0;
+  border-top: 0.5px solid var(--dsw-alias-border-l3);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.tag {
+  flex: none;
+  min-width: 64px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.rawText {
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-width: 0;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.kind {
+  flex: none;
+  padding: 0 6px;
+  border-radius: 6px;
+  font-size: 11px;
+  line-height: 18px;
+  background: var(--dsw-alias-interactive-bg-hover);
+  color: var(--dsw-alias-label-secondary);
+}
+
+.candText { word-break: break-word; }
+
+.ops {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: 0 8px;
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.chip.on {
+  border-color: var(--dsw-alias-brand-primary);
+  color: var(--dsw-alias-brand-primary);
+}
+
+.file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
