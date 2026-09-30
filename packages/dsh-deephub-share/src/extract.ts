@@ -81,10 +81,11 @@ export function extractRaw(events: readonly SessionEvent[], opts: ExtractOptions
         break
       }
       case 'tool/result': {
-        const block = ev.data.message.content[0]
+        // dsh 0.2 起 `ContentBlockMap` 里没有 `tool-result` 块了：结果文本就是消息自己的
+        // `content`，失败标记挪到了消息层的 `isError`。0.1.x 是 `content[0]` 里包一层。
         const name = nameByCall.get(String(ev.data.message.source.callId)) ?? '?'
-        const text = textOf(block.content)
-        const failed = block.isError === true || ev.data.error !== undefined
+        const text = textOf(ev.data.message.content)
+        const failed = ev.data.message.isError === true || ev.data.error !== undefined
         // 失败的结果也带：往往那里才有"为什么返工"的证据
         const body = (failed ? '（失败）' : '') + text.slice(0, cap)
         if (body.trim()) raw.push({ role: 'tool', label: `${name} → 结果`, text: body })

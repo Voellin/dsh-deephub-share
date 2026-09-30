@@ -14,12 +14,28 @@
  */
 import type { Context } from '@deepseek-ai/cordis'
 import { BlockAssembler, createUserMessage } from '@deepseek-ai/dsh-llm'
-import type { FinishReason, GenerateOptions } from '@deepseek-ai/dsh-llm'
+import type { ContextFormed, FinishReason, GenerateOptions } from '@deepseek-ai/dsh-llm'
 import { foldRequestHeader } from '@deepseek-ai/dsh-session'
 import type { SessionEvent, SessionId } from '@deepseek-ai/dsh-session'
 import type { IdeaDoc, IdeaRawItem } from './shared/idea.ts'
 
 export const PLUGIN_ID = 'dsh-deephub-share'
+
+/**
+ * 本插件自己的消息来源 kind。
+ *
+ * dsh 0.2 起 `MessageSourceMap` 里**不再有公用的 `plugin` kind**（0.1.x 有）。官方口径写在
+ * 类型注释里：「merge-extensible sum type —— 每个生产者在自己的模块里声明自己的 kind，
+ * 没有共用的 catch-all `plugin`；user 消息可以带任何生产者的 kind，消费者对不认识的 kind 直接放行」。
+ *
+ * 所以这里按同一套做法补一条。`ContextFormed` 照旧混进来，`form: 'notice'` 的一行摘要行为不变。
+ * 这是纯类型声明，运行时不产生任何代码。
+ */
+declare module '@deepseek-ai/dsh-llm' {
+  interface MessageSourceMap {
+    'dsh-deephub-share': { kind: typeof PLUGIN_ID } & ContextFormed
+  }
+}
 
 export interface Route { provider: string; model: string }
 
@@ -78,7 +94,7 @@ export async function oneshot(ctx: Context, route: Route, prompt: string, opts: 
     model: route.model,
     messages: [createUserMessage({
       content: [{ type: 'text', text: prompt }],
-      source: { kind: 'plugin', plugin: PLUGIN_ID },
+      source: { kind: PLUGIN_ID },
     })],
     ...(opts.maxTokens !== undefined ? { maxTokens: opts.maxTokens } : {}),
     signal,

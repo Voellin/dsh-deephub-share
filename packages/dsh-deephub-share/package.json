@@ -1,6 +1,6 @@
 {
   "name": "dsh-deephub-share",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Turn a dsh session into a shareable, redacted idea and deliver it to DeepHub friends. Built on DeepSeek Harness.",
   "keywords": [
     "dsh",
@@ -48,7 +48,7 @@
   },
   "engines": {
     "node": "^22.19.0 || >=24.0.0",
-    "dsh": "^0.1.5-rc.1"
+    "dsh": "^0.2.0-rc.2"
   },
   "scripts": {
     "types:cloud-protocol": "tsc -p ../cloud-protocol/tsconfig.json --noEmit false --declaration --emitDeclarationOnly --outDir .types/cloud-protocol",
@@ -60,28 +60,28 @@
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.2",
-    "@deepseek-ai/dsh-llm": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-session": "^0.1.5-rc.1"
+    "@deepseek-ai/dsh-llm": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-session": "^0.2.0-rc.2"
   },
   "devDependencies": {
     "@deephub/cloud-protocol": "*",
     "@deepseek-ai/cordis": "^4.0.2",
-    "@deepseek-ai/dsh-client-locale": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-client-ui-chat": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-client-ui-conversation": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-client-ui-layout": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-client-ui-primitives": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-client-ui-renderer": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-client-ui-session": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-client-ui-settings": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-client-ui-sidebar": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-client-ui-sidebar-right": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-client-ui-slots": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-credentials": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-llm": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-session": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-session-query": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-tool-present": "^0.1.5-rc.1",
+    "@deepseek-ai/dsh-client-locale": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-chat": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-conversation": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-layout": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-primitives": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-renderer": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-session": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-settings": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-sidebar": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-sidebar-right": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-slots": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-credentials": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-llm": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-session": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-session-query": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-tool-present": "^0.2.0-rc.2",
     "@types/node": "^22.0.0",
     "@types/react": "~18.3.1",
     "@types/react-dom": "~18.3.0",

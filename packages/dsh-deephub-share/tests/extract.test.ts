@@ -22,16 +22,19 @@ const assistant = (blocks: unknown[]) =>
   ev('assistant/message', { turn: 1, step: 1, message: { id: `a${seq}`, role: 'assistant', content: blocks, source: { kind: 'model', provider: 'p', model: 'm' } }, stream: [] }, { surfaceOp: 'append' })
 const call = (callId: string, name: string, args: unknown) =>
   ev('tool/call', { turn: 1, step: 1, callId, name, arguments: JSON.stringify(args) })
+// dsh 0.2 的工具结果形状：文本就是消息自己的 content，失败标记在消息层的 isError。
+// 0.1.x 是 content[0] 里包一个 `tool-result` 块，块里再套 content/isError。
 const result = (callId: string, text: string, isError = false) =>
-  ev('tool/result', { turn: 1, step: 1, message: { id: `r${seq}`, role: 'user', content: [{ type: 'tool-result', toolCallId: callId, content: [{ type: 'text', text }], isError }], source: { kind: 'tool', callId } } }, { surfaceOp: 'append' })
+  ev('tool/result', { turn: 1, step: 1, message: { id: `r${seq}`, role: 'tool', toolCallId: callId, content: [{ type: 'text', text }], isError, source: { kind: 'tool', callId } } }, { surfaceOp: 'append' })
 
 function sampleLog(): SessionEvent[] {
   seq = 0
   return [
     ev('request/header', { header: { config: { provider: 'deepseek-official', model: 'deepseek-flash' } }, reason: 'initial' }),
-    ev('system/message', { turn: 1, step: 1, message: { id: 's1', role: 'system', content: [{ type: 'text', text: 'SYSTEM PROMPT with AGENTS.md' }], source: { kind: 'plugin', plugin: 'dsh-system-prompt' } } }, { surfaceOp: 'append' }),
+    ev('system/message', { turn: 1, step: 1, message: { id: 's1', role: 'system', content: [{ type: 'text', text: 'SYSTEM PROMPT with AGENTS.md' }], source: { kind: 'system-prompt' } } }, { surfaceOp: 'append' }),
     user('帮我把 /home/lin/proj/notes.txt 整理成报告', { kind: 'user' }, [{ type: 'image', attachment: { id: 'img1' } }]),
-    user('MEMORY: 用户喜欢简洁', { kind: 'plugin', plugin: 'dsh-memory', form: 'notice', summary: 'x' }),
+    // 0.2 起别的插件各自声明自己的 kind，没有公用的 'plugin' —— 过滤规则不变：非 'user' 一律丢
+    user('MEMORY: 用户喜欢简洁', { kind: 'dsh-memory', form: 'notice', summary: 'x' }),
     ev('turn/start', { turn: 1 }),
     assistant([
       { type: 'reasoning', text: 'SECRET THINKING' },

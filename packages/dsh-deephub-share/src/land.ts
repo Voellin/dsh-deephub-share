@@ -176,7 +176,7 @@ export async function land(ctx: Context, input: LandInput): Promise<LandResult> 
       surfaceOp: 'append',
       data: createUserMessage({
         content: [{ type: 'text', text: modelText(input.doc, who) }],
-        source: { kind: 'plugin', plugin: 'dsh-deephub-share', form: 'notice', summary: title },
+        source: { kind: 'dsh-deephub-share', form: 'notice', summary: title },
       }),
     },
     { type: 'turn/start', seq: 2, time: now, data: { turn: 1 } },

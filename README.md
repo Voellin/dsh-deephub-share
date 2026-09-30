@@ -105,7 +105,7 @@ lp(x) = uint32be(len(x)) ‖ x
 
 ### 1 · 安装
 
-需要 **dsh 0.1.5-rc.1 或更新**，以及 PATH 上的 **pnpm**（`dsh plugin` 用它安装包）。
+需要 **dsh 0.2.0-rc.2 或更新**，以及 PATH 上的 **pnpm**（`dsh plugin` 用它安装包）。
 
 ```sh
 dsh plugin --profile web add dsh-deephub-share

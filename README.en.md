@@ -108,7 +108,7 @@ pre-positioned, so old responses cannot be replayed.
 
 ### 1 · Install
 
-Requires **dsh 0.1.5-rc.1 or newer** and **pnpm** on PATH (`dsh plugin` uses it to install packages).
+Requires **dsh 0.2.0-rc.2 or newer** and **pnpm** on PATH (`dsh plugin` uses it to install packages).
 
 ```sh
 dsh plugin --profile web add dsh-deephub-share

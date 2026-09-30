@@ -83,7 +83,7 @@ export function foldDeliverables(events: readonly SessionEvent[], cwd?: string):
       const p = pending.get(callId)
       pending.delete(callId)
       if (p === undefined) continue
-      if (ev.data.message.content[0].isError === true) continue
+      if (ev.data.message.isError === true) continue // 0.2 起失败标记在消息层，不在 content[0]
       const k = keyOf(p)
       if (!produced.has(k)) produced.set(k, { path: p })
       continue
