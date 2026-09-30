@@ -21,13 +21,13 @@ import type { Context } from '@deepseek-ai/cordis'
 import { registerOps, str } from '../routes.ts'
 import type { Cloud } from '../account/service.ts'
 import { land, workspaces } from '../land.ts'
-import { sanitizeIdeaDoc } from './incoming.ts'
+import { sanitizeIdeaDocEx } from './incoming.ts'
 import { landedIdeas } from './landed.ts'
 
 export const INBOX_PREFIX = '/api/deephub-share/inbox'
 
 /** 收下失败的原因。除 `undecryptable`/`malformed` 外都是能重试的。 */
-export type AcceptFailure = 'offline' | 'no_key' | 'not_found' | 'undecryptable' | 'malformed'
+export type AcceptFailure = 'offline' | 'no_key' | 'not_found' | 'undecryptable' | 'malformed' | 'too_large' | 'too_many'
 
 export function registerInboxRoutes(ctx: Context, cloudReady: Promise<Cloud>): void {
   const delivery = async () => (await cloudReady).svc.delivery
@@ -44,9 +44,18 @@ export function registerInboxRoutes(ctx: Context, cloudReady: Promise<Cloud>): v
       if (!got.ok || got.delivery === undefined) {
         return { ok: false, reason: (got.reason ?? 'not_found') satisfies AcceptFailure }
       }
-      const doc = sanitizeIdeaDoc(got.delivery.idea)
-      // 密文解开了、里面却不是一份能用的思路：这条我们收不下来，让用户去拒收
-      if (doc === null) return { ok: false, reason: 'malformed' satisfies AcceptFailure }
+      const sane = sanitizeIdeaDocEx(got.delivery.idea)
+      // 密文解开了、里面却不是一份能用的思路：这条我们收不下来，让用户去拒收。
+      // 超限要把实际数值带回去——用户得知道该让对方去掉什么再发，光说「收不下」没用。
+      if (!sane.ok) {
+        return {
+          ok: false,
+          reason: sane.reason satisfies AcceptFailure,
+          ...(sane.reason === 'too_large' ? { bytes: sane.bytes } : {}),
+          ...(sane.reason === 'too_many' ? { count: sane.count } : {}),
+        }
+      }
+      const doc = sane.doc
 
       return await land(ctx, {
         doc,

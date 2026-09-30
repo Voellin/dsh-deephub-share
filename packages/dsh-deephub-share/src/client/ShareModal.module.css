@@ -139,6 +139,9 @@
 
 .ok { color: var(--dsw-alias-state-success-primary); }
 .bad { color: var(--dsw-alias-state-error-primary); }
+
+/* 超限提示下面那排出路按钮。和提示条同一块，不要和下面的「发给」粘在一起。 */
+.limitOuts { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 10px; }
 .warn { color: var(--dsw-alias-state-warn-label); }
 
 .list {

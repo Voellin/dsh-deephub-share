@@ -62,9 +62,12 @@ export interface LandedIdea {
   createdAt: number
 }
 
-/** 收不下来的原因。前四种是取回/解密的，`malformed` 是解开了但里面不是一份能用的思路。 */
-export type AcceptFailure = 'offline' | 'no_key' | 'not_found' | 'undecryptable' | 'malformed'
-export type AcceptResult = AcceptOk | { ok: false; reason: AcceptFailure }
+/**
+ * 收不下来的原因。前四种是取回/解密的；`malformed` 是解开了但里面不是一份能用的思路；
+ * `too_large` / `too_many` 是超过了两端共用的上限，**带实际数值**，UI 要显示出来。
+ */
+export type AcceptFailure = 'offline' | 'no_key' | 'not_found' | 'undecryptable' | 'malformed' | 'too_large' | 'too_many'
+export type AcceptResult = AcceptOk | { ok: false; reason: AcceptFailure; bytes?: number; count?: number }
 
 /** `createdAt` 同样是 Unix **秒**。 */
 export interface IncomingRequest { requestId: string; shortId: string; createdAt: number }

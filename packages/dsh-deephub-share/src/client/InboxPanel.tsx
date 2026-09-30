@@ -89,6 +89,8 @@ const FAIL_KEY = {
   not_found: 'inbox.accept.fail.not_found',
   undecryptable: 'inbox.accept.fail.undecryptable',
   malformed: 'inbox.accept.fail.malformed',
+  too_large: 'inbox.accept.fail.too_large',
+  too_many: 'inbox.accept.fail.too_many',
 } as const satisfies Record<AcceptFailure, string>
 
 // ── 一条待收 ────────────────────────────────────────────────────────────

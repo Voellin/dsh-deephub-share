@@ -35,6 +35,27 @@ function Section({ title, items }: { title: string; items: readonly string[] }) 
   )
 }
 
+/**
+ * 单条原始记录里那段特别长的文字，先收起来。
+ *
+ * **只是显示层折叠——一个字都没少。** 0930 之前这里根本轮不到折叠：
+ * 收件端在 `incoming.ts` 就把每条切到 4000 字了，而且连省略号都不加。
+ */
+const RAW_FOLD_CHARS = 1200
+
+function RawText({ text, t }: { text: string; t: TranslateNS<typeof NS> }): JSX.Element {
+  const [open, setOpen] = useState(false)
+  if (text.length <= RAW_FOLD_CHARS) return <span className={css.rawText}>{text}</span>
+  return (
+    <span className={css.rawText}>
+      {open ? text : text.slice(0, RAW_FOLD_CHARS)}
+      <button type="button" className={css.rawMore} onClick={() => { setOpen((v) => !v) }}>
+        {open ? t('card.raw.foldOne') : t('card.raw.expandOne', { n: String(text.length) })}
+      </button>
+    </span>
+  )
+}
+
 export function ReceivedIdeaCard({ node, t, openFile }: ReceivedIdeaCardProps) {
   const [rawOpen, setRawOpen] = useState(false)
   const d: ReceivedIdeaEvent = node.data
@@ -103,7 +124,7 @@ export function ReceivedIdeaCard({ node, t, openFile }: ReceivedIdeaCardProps) {
               {d.doc.raw.map((r, i) => (
                 <li key={i}>
                   <span className={css.rawRole}>{r.role}</span>
-                  <span className={css.rawText}>{r.text}</span>
+                  <RawText text={r.text} t={t} />
                 </li>
               ))}
             </ol>

@@ -14,7 +14,7 @@ import { basename, isAbsolute, resolve, sep } from 'node:path'
 import type { Context } from '@deepseek-ai/cordis'
 import { SessionId } from '@deepseek-ai/dsh-session'
 import type {} from '@deepseek-ai/dsh-session-query'
-import { ATTACH_ONE_MAX, ATTACH_TOTAL_MAX, type Attachment } from '@deephub/cloud-protocol'
+import { ATTACH_ONE_MAX, ATTACH_TOTAL_MAX, IDEA_DOC_BYTES_MAX, IDEA_RAW_COUNT_MAX, type Attachment } from '@deephub/cloud-protocol'
 import { foldDeliverables } from './deliverables.ts'
 
 export interface AttachmentInfo {
@@ -29,6 +29,10 @@ export interface AttachmentInfo {
 export interface AttachmentList {
   files: AttachmentInfo[]
   totalMax: number
+  /** 一份思路的字节上限。真值在 `@deephub/cloud-protocol` 的 `IDEA_DOC_BYTES_MAX`。 */
+  docMax: number
+  /** 原始记录条数上限。真值同上，`IDEA_RAW_COUNT_MAX`。 */
+  rawMax: number
 }
 
 const sameCase = (p: string): string => (process.platform === 'win32' ? p.toLowerCase() : p)
@@ -81,7 +85,7 @@ export async function listAttachments(ctx: Context, sessionId: string): Promise<
       if (info) files.push(info)
     }
   }
-  return { files, totalMax: ATTACH_TOTAL_MAX }
+  return { files, totalMax: ATTACH_TOTAL_MAX, docMax: IDEA_DOC_BYTES_MAX, rawMax: IDEA_RAW_COUNT_MAX }
 }
 
 /** 发送前读附件。`paths` 每一项都必须是 `listAttachments` 此刻算出来的候选，否则整个请求拒绝。 */

@@ -9,7 +9,7 @@
  * 四条规矩：全文永远和发送键同框；没跑扫描绝不出现"已检查"字样；附件没有全选总开关；
  * 扫描失败不挡分享。另加一条 dsh 独有的：**不登录也能导出 Markdown**。
  */
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Button, Input, Modal } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { TranslateNS } from '@deepseek-ai/dsh-client-ui-slots'
 import type { NS } from './locales.ts'
@@ -75,6 +75,12 @@ export function ShareModal({ open, onClose, sessionId, t }: ShareModalProps) {
   // 附件
   const [files, setFiles] = useState<AttachmentInfo[]>([])
   const [totalMax, setTotalMax] = useState(15 * 1024 * 1024)
+  // 两个整份上限由宿主随 attachments 一起给。**客户端不能直接 import cloud-protocol 的运行时值**
+  // ——那会把 crypto 整包打进 web bundle。真值来源仍是 cloud-protocol，这里只是搭个车。
+  const [docMax, setDocMax] = useState(15 * 1024 * 1024)
+  const [rawMax, setRawMax] = useState(20_000)
+  /** 用户点过「不带原始记录」。只影响这一次发送，不改 built 缓存。 */
+  const [dropRaw, setDropRaw] = useState(false)
   const [picked, setPicked] = useState<Set<string>>(new Set())
 
   const [busy, setBusy] = useState(false)
@@ -149,7 +155,7 @@ export function ShareModal({ open, onClose, sessionId, t }: ShareModalProps) {
     try {
       const a = await api.attachments(sessionId)
       if (mine !== seq.current) return
-      setFiles(a.files); setTotalMax(a.totalMax)
+      setFiles(a.files); setTotalMax(a.totalMax); setDocMax(a.docMax); setRawMax(a.rawMax)
     } catch { /* 附件列不出来不挡整理与发送 */ }
   }, [sessionId])
 
@@ -174,7 +180,19 @@ export function ShareModal({ open, onClose, sessionId, t }: ShareModalProps) {
   const noFriends = loggedIn === true && !offline && friends.length === 0
   const pickedSize = files.filter((f) => picked.has(f.path)).reduce((n, f) => n + f.size, 0)
   const overTotal = pickedSize > totalMax
-  const canSend = !!doc && !!to && loggedIn === true && !offline && !overTotal && !busy && !building
+
+  // 发出去之前先量一遍。**按 UTF-8 字节算，不是 `.length`** —— 一个汉字 3 字节，
+  // 用字符数判会放进三倍的量，撞穿服务端 32 MB 的请求体上限，用户看到的是「云端连不上」。
+  const bytesOf = (v: unknown): number => new TextEncoder().encode(JSON.stringify(v)).length
+  const sendDoc = useMemo(() => (doc && dropRaw ? { ...doc, raw: [] } : doc), [doc, dropRaw])
+  const docBytes = useMemo(() => (sendDoc ? bytesOf(sendDoc) : 0), [sendDoc])
+  /** 只算原始记录那部分占多少，给「不带原始记录 · 省 X」用。 */
+  const rawBytes = useMemo(() => (doc ? bytesOf(doc) - bytesOf({ ...doc, raw: [] }) : 0), [doc])
+  const totalBytes = docBytes + pickedSize
+  const overSize = totalBytes > docMax
+  const overCount = !!sendDoc && sendDoc.raw.length > rawMax
+
+  const canSend = !!doc && !!to && loggedIn === true && !offline && !overTotal && !overSize && !overCount && !busy && !building
 
   const scan = async (): Promise<void> => {
     if (!doc || !built?.route) return
@@ -215,7 +233,7 @@ export function ShareModal({ open, onClose, sessionId, t }: ShareModalProps) {
     if (!doc || !to) return
     setBusy(true); setErr(null)
     try {
-      const r = await api.send(sessionId, to, doc, [...picked], cands)
+      const r = await api.send(sessionId, to, sendDoc ?? doc, [...picked], cands)
       if (r.ok) setSent(true)
       else setErr(t(REASON_KEY[r.reason] ?? 'share.reason.other'))
     } catch (e) { setErr((e as Error).message) } finally { setBusy(false) }
@@ -262,6 +280,37 @@ export function ShareModal({ open, onClose, sessionId, t }: ShareModalProps) {
         </div>
       )}>
       <div className={css.body} data-deephub-share-modal>
+        {/* 超过整份上限：这是全流程唯一会拦住发送的地方。
+            只说「超了」没用——把数值和两条出路一起给出来，用户才知道下一步做什么。 */}
+        {overSize && (
+          <div>
+            <p className={cx(css.note, css.bad)}>{t('share.limit.size', { size: fileSize(totalBytes), max: fileSize(docMax) })}</p>
+            <div className={css.limitOuts}>
+              {pickedSize > 0 && (
+                <Button variant="outline" size="sm" onClick={() => { setPicked(new Set()) }}>
+                  {t('share.limit.dropAttach', { size: fileSize(pickedSize) })}
+                </Button>
+              )}
+              {!dropRaw && rawBytes > 0 && (
+                <Button variant="outline" size="sm" onClick={() => { setDropRaw(true) }}>
+                  {t('share.limit.dropRaw', { size: fileSize(rawBytes) })}
+                </Button>
+              )}
+            </div>
+          </div>
+        )}
+        {overCount && (
+          <div>
+            <p className={cx(css.note, css.bad)}>{t('share.limit.count', { n: String(sendDoc?.raw.length ?? 0), max: String(rawMax) })}</p>
+            <div className={css.limitOuts}>
+              {!dropRaw && (
+                <Button variant="outline" size="sm" onClick={() => { setDropRaw(true) }}>
+                  {t('share.limit.dropRaw', { size: fileSize(rawBytes) })}
+                </Button>
+              )}
+            </div>
+          </div>
+        )}
         {offline && <p className={cx(css.note, css.warn)}>{t('share.offline')}</p>}
         {loggedIn === false && <p className={cx(css.note, css.warn)}>{t('share.needLogin')}</p>}
 

@@ -44,7 +44,7 @@ export const shareApi = {
   /** 打开对话框先问这一句：标题、记录条数、有没有现成结果。不调模型、不花钱 */
   peek: (sessionId: string) => call<PeekResponse>('peek', { sessionId }),
   build: (sessionId: string, force = false) => call<BuildResponse>('build', { sessionId, force }),
-  attachments: (sessionId: string) => call<{ files: AttachmentInfo[]; totalMax: number }>('attachments', { sessionId }),
+  attachments: (sessionId: string) => call<{ files: AttachmentInfo[]; totalMax: number; docMax: number; rawMax: number }>('attachments', { sessionId }),
   scan: (doc: IdeaDoc, route: { provider: string; model: string }) =>
     call<{ ok: true; candidates: RedactCandidate[] } | { ok: false; reason: string }>('scan', { doc, route }),
   send: (sessionId: string, toAccountId: string, doc: IdeaDoc, paths: string[], decisions: RedactCandidate[]) =>

@@ -95,6 +95,12 @@ export const zh = {
   'share.reason.offline': '连不上云端，稍后再试。',
   'share.reason.other': '没发出去，稍后再试。',
 
+  // 超过两端共用的上限。**数值必须显示出来**——只说「超了」用户不知道该去掉什么再发。
+  'share.limit.size': '这份思路 {size}，超过单次 {max} 上限。',
+  'share.limit.count': '原始记录 {n} 条，超过 {max} 条上限。',
+  'share.limit.dropAttach': '去掉附件 · 省 {size}',
+  'share.limit.dropRaw': '不带原始记录 · 省 {size}',
+
   // ── 朋友与收件箱 tab ──
   // ── 会话里「收到的思路」卡片 ──
   'card.from': '{who} 分享了思路',
@@ -106,6 +112,8 @@ export const zh = {
   'card.open': '打开',
   'card.raw.show': '{n} 条原始记录',
   'card.raw.hide': '收起原始记录',
+  'card.raw.expandOne': '展开全文 · {n} 字',
+  'card.raw.foldOne': '收起',
 
   'inbox.tab': '朋友与收件箱',
   'inbox.checking': '正在查云端状态…',
@@ -156,6 +164,8 @@ export const zh = {
   // 解不开就是解不开：不降级、不"尽力而为"——那等于给冒充放行
   'inbox.accept.fail.undecryptable': '解不开：这份不是那位朋友用登记的公钥发的。',
   'inbox.accept.fail.malformed': '解开了，但里面不是一份能用的思路——建议拒收。',
+  'inbox.accept.fail.too_large': '这份思路 {size}，超过 {max} 上限。请对方去掉附件后重发。',
+  'inbox.accept.fail.too_many': '这份思路有 {n} 条原始记录，超过 {max} 条上限。请对方不带原始记录重发。',
   'inbox.accept.fail.other': '没收下来，稍后再试。',
 
   'inbox.friends': '朋友',
@@ -347,6 +357,11 @@ export const en: Record<DeephubShareKey, string> = {
   'share.reason.offline': "Can't reach the cloud. Try again later.",
   'share.reason.other': "Didn't go out. Try again later.",
 
+  'share.limit.size': 'This idea is {size}, over the {max} limit for one send.',
+  'share.limit.count': '{n} raw records, over the {max} limit.',
+  'share.limit.dropAttach': 'Drop attachments · saves {size}',
+  'share.limit.dropRaw': 'Without raw records · saves {size}',
+
 
   // ── Friends & inbox tab ──
   // -- Received idea card --
@@ -359,6 +374,8 @@ export const en: Record<DeephubShareKey, string> = {
   'card.open': 'Open',
   'card.raw.show': '{n} raw records',
   'card.raw.hide': 'Hide raw records',
+  'card.raw.expandOne': 'Show all · {n} chars',
+  'card.raw.foldOne': 'Collapse',
 
   'inbox.tab': 'Friends & inbox',
   'inbox.checking': 'Checking the cloud…',
@@ -406,6 +423,8 @@ export const en: Record<DeephubShareKey, string> = {
   'inbox.accept.fail.not_found': 'This one is gone (expired or withdrawn).',
   'inbox.accept.fail.undecryptable': "Can't decrypt: this was not sent by that friend with their registered key.",
   'inbox.accept.fail.malformed': "Decrypted, but the content isn't a usable idea — reject it.",
+  'inbox.accept.fail.too_large': 'This idea is {size}, over the {max} limit. Ask them to drop the attachments and resend.',
+  'inbox.accept.fail.too_many': 'This idea has {n} raw records, over the {max} limit. Ask them to resend without raw records.',
   'inbox.accept.fail.other': "Couldn't accept it — try again in a moment.",
 
   'inbox.friends': 'Friends',

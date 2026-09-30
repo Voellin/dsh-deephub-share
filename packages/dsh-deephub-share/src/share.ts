@@ -24,6 +24,7 @@ import { json, registerOps, str, type Body } from './routes.ts'
 import type { Cloud } from './account/service.ts'
 import { SessionId } from '@deepseek-ai/dsh-session'
 import type {} from '@deepseek-ai/dsh-session-query'
+import { IDEA_DOC_BYTES_MAX, IDEA_RAW_COUNT_MAX, utf8Bytes } from '@deephub/cloud-protocol'
 
 export const SHARE_PREFIX = '/api/deephub-share'
 
@@ -146,6 +147,20 @@ export function registerShareRoutes(ctx: Context, cloudReady: Promise<Cloud>, co
       // ① 层脱敏再过一遍（幂等）；② 层按用户逐条的决定
       const finalDoc = applyDecisions(redactStructural(doc, session.cwd), decisionsOf(b?.decisions))
       const atts = await readAttachments(ctx, sessionId, strings(b?.paths))
+
+      // 发出去之前先量一遍。**按 UTF-8 字节算**，不是 `.length` —— 一个汉字 3 字节，
+      // 用字符数判会放进三倍的量，直接撞穿服务端 32 MB 的请求体上限，
+      // 用户看到的会是「云端连不上」这种完全指错方向的提示。
+      // 两个数值都要带回去：UI 得说清多大 / 多少条，否则用户不知道该去掉什么再发。
+      if (finalDoc.raw.length > IDEA_RAW_COUNT_MAX) {
+        return { ok: false, reason: 'too_many' as const, count: finalDoc.raw.length, max: IDEA_RAW_COUNT_MAX }
+      }
+      const attBytes = atts.reduce((n, a) => n + a.data.length, 0)
+      const docBytes = utf8Bytes(JSON.stringify(finalDoc)) + attBytes
+      if (docBytes > IDEA_DOC_BYTES_MAX) {
+        return { ok: false, reason: 'too_large' as const, bytes: docBytes, attachmentBytes: attBytes, max: IDEA_DOC_BYTES_MAX }
+      }
+
       const { svc } = await cloudReady
       await svc.ensureIdentityKey() // 幂等；重启后没认领过的话这里补上，否则 send 会报 no_key
       const r = await svc.delivery.send(toAccountId, finalDoc, atts)

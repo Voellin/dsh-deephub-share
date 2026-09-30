@@ -195,3 +195,7 @@
   white-space: pre-wrap;
   word-break: break-word;
 }
+
+/* 「展开全文」。跟在正文后面，别自成一行——它是这段文字的一部分。 */
+.rawMore { margin-left: 6px; padding: 0; border: 0; background: none; cursor: pointer;
+  color: var(--dsw-alias-link); font: inherit; }

@@ -78,6 +78,9 @@ export { CloudService, toFail, type SyncLike } from './cloud/service'
 
 export * from './crypto'
 
+// 一份思路的尺寸上限：两端共用，别各自硬编码
+export { IDEA_DOC_BYTES_MAX, IDEA_RAW_COUNT_MAX, utf8Bytes } from './limits'
+
 // 协议版本协商：登记簿、协商原语、客户端侧的探测与判定
 export { PROTOCOL_VERSION, CLIENT_MIN_SERVER, capabilitiesFor, negotiate, type ProtocolRange, type Negotiation } from './protocol/version'
 export { REGISTRY, type ProtocolRegistry } from './protocol/registry'

@@ -6,8 +6,10 @@
   "private": true,
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "//exports-note": "./limits 是给浏览器侧用的子入口。主入口 index.ts 挂着 node:crypto/node:fs/node:os，从它值导入会被打包器拖进浏览器 bundle 然后炸（vite 会换成空壳 __vite-browser-external，rollup 随即报 generateKeyPairSync is not exported）。limits.ts 自己零依赖。注意 exports 里不能混放非 . 开头的键，Node 会抛 ERR_INVALID_PACKAGE_CONFIG，所以这条说明只能放在外面。",
   "exports": {
     ".": "./src/index.ts",
+    "./limits": "./src/limits.ts",
     "./package.json": "./package.json"
   },
   "files": [

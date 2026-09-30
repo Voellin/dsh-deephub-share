@@ -1,6 +1,6 @@
 {
   "name": "dsh-deephub-share",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "Turn a dsh session into a shareable, redacted idea and deliver it to DeepHub friends. Built on DeepSeek Harness.",
   "keywords": [
     "dsh",

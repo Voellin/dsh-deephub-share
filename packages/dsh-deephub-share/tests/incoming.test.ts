@@ -7,7 +7,7 @@
  */
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { sanitizeIdeaDoc } from '../src/inbox/incoming.ts'
+import { sanitizeIdeaDoc, sanitizeIdeaDocEx } from '../src/inbox/incoming.ts'
 import { safeName } from '../src/land.ts'
 
 /** 一份合格的思路，各条测试在它上面改一处。 */
@@ -66,20 +66,33 @@ test('数组里混进来的非字符串丢掉，空串也丢掉', () => {
   assert.deepEqual(doc.deps.connectors, [])
 })
 
-test('超长的截断、超量的截掉', () => {
+test('标题与目标仍按长度截，正文一个字都不截', () => {
   const doc = sanitizeIdeaDoc({
     ...good(),
     title: 'x'.repeat(400),
     goal: 'g'.repeat(9000),
     steps: Array.from({ length: 500 }, (_, i) => `第 ${i} 步` + 'y'.repeat(9000)),
-    raw: Array.from({ length: 900 }, () => ({ role: 'user', text: 'z' })),
+    raw: Array.from({ length: 900 }, () => ({ role: 'user', text: 'z'.repeat(5_000) })),
   })
   assert.ok(doc !== null)
+  // 标题要进侧栏、目标要进摘要，这两处的长度上限保留
   assert.equal(doc.title.length, 200)
   assert.equal(doc.goal.length, 4000)
+  // 条数上限保留（它拦的是收件端渲染），但正文**不再截断**
   assert.equal(doc.steps.length, 200)
-  assert.equal(doc.steps[0]?.length, 4000)
-  assert.equal(doc.raw.length, 500)
+  assert.equal(doc.steps[0]?.length, '第 0 步'.length + 9000)
+  assert.equal(doc.raw.length, 900)
+  assert.equal(doc.raw[0]?.text.length, 5_000)
+})
+
+test('原始记录超过条数上限 —— 拒收，不是悄悄截掉', () => {
+  const r = sanitizeIdeaDocEx({
+    ...good(),
+    raw: Array.from({ length: 20_001 }, () => ({ role: 'user', text: 'z' })),
+  })
+  assert.equal(r.ok, false)
+  assert.equal(r.ok === false ? r.reason : null, 'too_many')
+  assert.equal(r.ok === false && r.reason === 'too_many' ? r.count : 0, 20_001)
 })
 
 test('交付物：认不得的种类退回 file，不是对象的丢掉，没标题的丢掉', () => {
@@ -108,9 +121,21 @@ test('原始记录：角色认不得退回 agent，正文空的丢掉，label �
 })
 
 test('收拾完还是过大 —— 不收（这份要永久写进会话日志）', () => {
-  // 200 条 × 4000 字 = 80 万字符，UTF-8 下远超 2 MB
-  const huge = { ...good(), steps: Array.from({ length: 200 }, () => '啊'.repeat(4000)) }
+  // 上限是 15 MB **字节**。一个汉字 UTF-8 占 3 字节，所以 600 万字 ≈ 18 MB，超。
+  // 注意别用 `.length` 判：那是 UTF-16 码元数，600 万字只有 600 万，看着还没到 15 M。
+  const huge = { ...good(), steps: Array.from({ length: 200 }, () => '啊'.repeat(30_000)) }
   assert.equal(sanitizeIdeaDoc(huge), null)
+  const r = sanitizeIdeaDocEx(huge)
+  assert.equal(r.ok, false)
+  assert.equal(r.ok === false ? r.reason : null, 'too_large')
+})
+
+test('刚好在上限之内 —— 收下，一个字不少', () => {
+  // 一条 100 万汉字 ≈ 3 MB，远在 15 MB 之内
+  const text = '啊'.repeat(1_000_000)
+  const doc = sanitizeIdeaDoc({ ...good(), raw: [{ role: 'agent', text }] })
+  assert.ok(doc !== null)
+  assert.equal(doc.raw[0]?.text.length, 1_000_000)
 })
 
 // ── 附件名 ──────────────────────────────────────────────────────────────
